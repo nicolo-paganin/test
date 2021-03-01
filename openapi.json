@@ -1,0 +1,102 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Descrizione delle API di integrazione con PIC",
+    "version": "0.0.1",
+    "title": "ProntoPegno"
+  },
+  "servers": [
+    {
+      "url": "http://TBD/v1"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Utente": {
+        "type": "object",
+        "properties": {
+          "CDG": {
+            "type": "string"
+          },
+          "EsenzioneCauzione": {
+            "type": "boolean"
+          }
+        },
+        "xml": {
+          "name": "Utente"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/user/{userId}": {
+      "get": {
+        "summary": "Esistenza di un utente",
+        "description": "Veririca l'esistenza di un utente sulla piattaforma MPEG0 e informazioni relative al pagamento della cauzione",
+        "operationId": "PICVerificaCliente",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "CF dell'utente in caso di persona fisica, P.IVA di caso di persona giuridica",
+            "required": true,
+            "examples": {
+              "one": {
+                "summary": "Example Partita Iva",
+                "value": "IT123456789"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "Bearer Token",
+            "required": true,
+            "examples": {
+              "one": {
+                "summary": "Example of bearer token",
+                "value": "Bearer 9QKJ75D21ELKL73H11RLMJJ666MK0P39M1FE0VQVE35E5E9DVPP6ZTE6D3660PMLOQL6ZJ2L1BM3PJ0ORRK0JY37PK8MTR7MJ2980D7JZ7LKQQOMHEJ"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Utente"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "CF o P.IVA non valida"
+          },
+          "404": {
+            "description": "Utente non trovato"
+          }
+        }
+      }
+    }
+  }
+}
