@@ -1,0 +1,95 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Descrizione delle API di integrazione con PIC",
+    "version": "0.0.1",
+    "title": "ProntoPegno"
+  },
+  "host": "TBD",
+  "basePath": "/v1",
+  "tags": [
+    {
+      "name": "Offerte Online",
+      "description": "Descrizione API offerte online"
+    },
+    {
+      "name": "Rinnovo Polizze",
+      "description": "Descrizione API rinnovo polizze"
+    }
+  ],
+  "paths": {
+    "/user/{userId}": {
+      "get": {
+        "tags": [
+          "Offerte Online"
+        ],
+        "summary": "Esistenza di un utente",
+        "description": "Veririca l'esistenza di un utente sulla piattaforma MPEG0 e informazioni relative al pagamento della cauzione",
+        "operationId": "PICVerificaCliente",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "CF dell'utente in caso di persona fisica, P.IVA di caso di persona giuridica",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Utente"
+            }
+          },
+          "400": {
+            "description": "CF o P.IVA non valida"
+          },
+          "404": {
+            "description": "Utente non trovato"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "prontopegno_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://",
+      "flow": "implicit",
+      "scopes": {
+        "write": "",
+        "read": ""
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Utente": {
+      "type": "object",
+      "properties": {
+        "CDG": {
+          "type": "string"
+        },
+        "EsenzioneCauzione": {
+          "type": "boolean"
+        }
+      },
+      "xml": {
+        "name": "Utente"
+      }
+    }
+  }
+}
