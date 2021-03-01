@@ -38,7 +38,10 @@
   "paths": {
     "/user/{userId}": {
       "get": {
-        "summary": "Esistenza di un utente",
+        "summary": "PICVerificaCliente - Esistenza di un utente",
+        "tags": [
+          "Offerte Online"
+        ],
         "description": "Veririca l'esistenza di un utente sulla piattaforma MPEG0 e informazioni relative al pagamento della cauzione",
         "operationId": "PICVerificaCliente",
         "security": [
@@ -91,6 +94,9 @@
           },
           "400": {
             "description": "CF o P.IVA non valida"
+          },
+          "401": {
+            "description": "Utente non autorizzato"
           },
           "404": {
             "description": "Utente non trovato"
